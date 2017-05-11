@@ -6,7 +6,7 @@ The resulting project contains everything to create
 - A Fat-Jar
 
 ```
-sbt new vert-x3/vertx-scala
+sbt new vert-x3/vertx-scala.g8
 ```
 
 [g8]: http://www.foundweekends.org/giter8/
