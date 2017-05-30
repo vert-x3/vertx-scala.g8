@@ -17,8 +17,7 @@ class HttpVerticle extends ScalaVerticle {
 
     vertx
       .createHttpServer()
-      .requestHandler(router.accept)
+      .requestHandler(router.accept _)
       .listenFuture(8666, "0.0.0.0")
-      .map(_ => ())
   }
 }
