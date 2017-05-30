@@ -8,7 +8,7 @@ import scala.concurrent.Future
 class HttpVerticle extends ScalaVerticle {
 
 
-  override def startFuture(): Future[Unit] = {
+  override def startFuture(): Future[_] = {
     //Create a router to answer GET-requests to "/hello" with "world"
     val router = Router.router(vertx)
     val route = router

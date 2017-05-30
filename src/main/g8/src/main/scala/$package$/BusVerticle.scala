@@ -6,7 +6,7 @@ import scala.concurrent.Future
 
 class BusVerticle extends ScalaVerticle {
 
-  override def startFuture(): Future[Unit] = {
+  override def startFuture(): Future[_] = {
     vertx
       .eventBus()
       .consumer[String]("testAddress")
