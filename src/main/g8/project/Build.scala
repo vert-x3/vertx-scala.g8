@@ -11,6 +11,9 @@ object Build extends AutoPlugin {
 
   override def projectSettings: Seq[Def.Setting[_]] =
     Vector(
+      resolvers ++= Vector(
+          "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/"
+      ),
       scalaVersion := Version.Scala,
       assemblyMergeStrategy in assembly := {
         case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
