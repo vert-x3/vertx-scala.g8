@@ -24,7 +24,7 @@ object Docker extends AutoPlugin {
         val artifactTargetPath = s"/app/\${artifact.name}"
 
         new Dockerfile {
-          from("frolvlad/alpine-oraclejdk8:slim")
+          from("adoptopenjdk/openjdk8:latest")
           add(artifact, artifactTargetPath)
           entryPoint("java", "-jar", artifactTargetPath)
           expose(exposedPorts.value:_*)
