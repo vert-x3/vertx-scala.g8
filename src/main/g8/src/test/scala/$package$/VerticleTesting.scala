@@ -37,6 +37,10 @@ abstract class VerticleTesting[A <: ScalaVerticle: TypeTag] extends AsyncFlatSpe
     Await.result(
       vertx.undeployFuture(deploymentId)
         .andThen {
+          case Success(_) => vertx.closeFuture()
+          case Failure(t) => throw new RuntimeException(t)
+        }
+        .andThen {
           case Success(d) => d
           case Failure(t) => throw new RuntimeException(t)
         },
