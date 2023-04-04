@@ -1,22 +1,25 @@
 package $package$
 
-import org.scalatest.Matchers
+import io.vertx.core.http.HttpMethod
 
-import scala.concurrent.Promise
+import io.vertx.lang.scala.ImplicitConversions.vertxFutureToScalaFuture
+import io.vertx.lang.scala.testing.VerticleTesting
 
-class HttpVerticleSpec extends VerticleTesting[HttpVerticle] with Matchers {
+import org.scalatest.matchers.should.Matchers
 
-  "HttpVerticle" should "bind to 8666 and answer with 'world'" in {
-    val promise = Promise[String]
+import scala.language.implicitConversions
 
-    vertx.createHttpClient()
-      .getNow(8666, "127.0.0.1", "/hello",
-        r => {
-          r.exceptionHandler(promise.failure)
-          r.bodyHandler(b => promise.success(b.toString))
-        })
 
-    promise.future.map(res => res should equal("world"))
+class HttpVerticleSpec extends VerticleTesting[HttpVerticle], Matchers:
+
+  "HttpVerticle" should "bind to $httpPort$ and answer with 'world'" in {
+    val httpClient = vertx.createHttpClient()
+
+    for {
+      req  <- httpClient.request(HttpMethod.GET, $httpPort$, "127.0.0.1", "/hello")
+      res  <- req.send()
+      body <- res.body.map(_.toString)
+      assertion = body should equal("world")
+    } yield assertion
   }
 
-}

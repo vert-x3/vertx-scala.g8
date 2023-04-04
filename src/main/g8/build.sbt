@@ -1,23 +1,23 @@
-import sbt.Package._
-import sbt._
-import Docker.autoImport.exposedPorts
+import java.util.jar.Attributes.Name
 
-scalaVersion := "2.12.6"
+ThisBuild / scalaVersion := "3.2.2"
+ThisBuild / resolvers    += Resolver.mavenLocal
 
-enablePlugins(DockerPlugin)
-exposedPorts := Seq(8666)
+lazy val mainVerticle = "scala:$package$.HttpVerticle"
 
-libraryDependencies ++= Vector (
-  Library.vertx_lang_scala,
-  Library.vertx_web,
-  Library.scalaTest       % "test",
-  // Uncomment for clustering
-  // Library.vertx_hazelcast,
+lazy val root = (project in file("."))
+  .settings(
+    libraryDependencies ++= Seq(
+      Library.vertx_lang_scala,
+      Library.vertx_web,
+      Library.vertx_lang_scala_test % Test,
+      Library.scalaTest % Test,
+    ),
+    Compile / mainClass := Some("io.vertx.core.Launcher"),
+    Compile / packageOptions += {
+      Package.ManifestAttributes(new Name("Main-Verticle") -> s"scala:\$mainVerticle")
+    }
+  )
 
-  //required to get rid of some warnings emitted by the scala-compile
-  Library.vertx_codegen
-)
 
-packageOptions += ManifestAttributes(
-  ("Main-Verticle", "scala:$package$.HttpVerticle"))
 

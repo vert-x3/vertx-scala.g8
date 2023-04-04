@@ -29,3 +29,8 @@ src/test/java/com/acme/**
 src/test/scala/io/vertx/scala/codegen/**
 src/test/scala/com/acme/**
 src/test/asciidoc
+.bsp
+.bloop
+.metals
+.vscode
+metals.sbt
