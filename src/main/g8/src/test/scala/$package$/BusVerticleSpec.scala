@@ -1,15 +1,19 @@
 package $package$
 
-import org.scalatest._
+import io.vertx.lang.scala.ImplicitConversions.vertxFutureToScalaFuture
+import io.vertx.lang.scala.testing.VerticleTesting
 
-class BusVerticleSpec extends VerticleTesting[BusVerticle] with Matchers {
+import org.scalatest.matchers.should.Matchers
+
+import scala.language.implicitConversions
+
+
+class BusVerticleSpec extends VerticleTesting[BusVerticle], Matchers:
 
   "BusVerticle" should "reply to a message" in {
-    val future = vertx
-        .eventBus()
-        .sendFuture[String]("testAddress", "msg")
-
-    future.map(res => res.body() should equal("Hello World!"))
+    for {
+      msg <- vertx.eventBus.request[String]("testAddress", "msg")
+      assertion = msg.body should equal("Hello World!")
+    } yield assertion
   }
 
-}
