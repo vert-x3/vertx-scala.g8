@@ -1,48 +1,65 @@
-// import sbt.{Def, _}
-// import sbtassembly.AssemblyPlugin.autoImport.{MergeStrategy, assembly, assemblyMergeStrategy}
-// import sbtassembly.{AssemblyPlugin, PathList}
-// import Keys._
+import sbt.{Def, _}
+import sbtassembly.AssemblyPlugin.autoImport.*
+import sbtassembly.{AssemblyPlugin, PathList}
+import Keys._
+import spray.revolver.RevolverPlugin
+import spray.revolver.RevolverPlugin.autoImport.reStartArgs
+import de.gccc.jib.JibPlugin
+import de.gccc.jib.JibPlugin.autoImport.*
+import java.util.jar.Attributes.Name
 
-// object Build extends AutoPlugin {
+object Build extends AutoPlugin {
 
-//   override def trigger = allRequirements
+  object autoImport {
+    val vertxBuild = taskKey[Seq[String]]("Builds a Vert.x Scala project")
+    val mainVerticle = settingKey[String]("Canonical class name of the main Verticle")
+  }
+  
+  override def trigger = allRequirements
+  
+  override def requires: Plugins = AssemblyPlugin && RevolverPlugin && JibPlugin
 
-//   override def requires: Plugins = AssemblyPlugin
+  /**
+    * Start arguments for the application. This is basically the `run` command for the
+    * Vert.x Launcher and the qualified class name of the main Verticle.
+    */
+  private def startArgs(mainVerticleFqcn: String): List[String] = List("run", s"scala:\${mainVerticleFqcn}")
+  
+  import autoImport.*
+  override def projectSettings: Seq[Def.Setting[_]] = 
+    Vector(
+      // Compilation settings
+      scalacOptions ++= Vector(
+        "-unchecked",
+        "-deprecation",
+        "-target:17",
+        "-encoding", "UTF-8"
+      ),
+      Compile / mainClass := Some("io.vertx.core.Launcher"),
+      Compile / packageOptions += {
+        Package.ManifestAttributes(new Name("Main-Verticle") -> s"scala:\${mainVerticle.value}")
+      },
 
-//   override def projectSettings: Seq[Def.Setting[_]] =
-//     Vector(
-//       resolvers ++= Vector(
-//           "Sonatype SNAPSHOTS" at "https://oss.sonatype.org/content/repositories/snapshots/"
-//       ),
-//       scalaVersion := Version.Scala,
-//       assemblyMergeStrategy in assembly := {
-//         case PathList("META-INF", "MANIFEST.MF") => MergeStrategy.discard
-//         case PathList("META-INF", xs @ _*) => MergeStrategy.last
-//         case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.last
-//         case PathList("codegen.json") => MergeStrategy.discard
-//         case x =>
-//           val oldStrategy = (assemblyMergeStrategy in assembly).value
-//           oldStrategy(x)
-//       },
-//       scalacOptions ++= Vector(
-//         "-unchecked",
-//         "-deprecation",
-//         "-language:_",
-//         "-target:jvm-1.8",
-//         "-encoding", "UTF-8"
-//       ),
-//       mainClass := Some("io.vertx.core.Launcher"),
-//       unmanagedSourceDirectories in Compile := Vector(scalaSource.in(Compile).value),
-//       unmanagedSourceDirectories in Test := Vector(scalaSource.in(Test).value),
-//       initialCommands in console := """|import io.vertx.lang.scala._
-//                                        |import io.vertx.lang.scala.ScalaVerticle.nameForVerticle
-//                                        |import io.vertx.scala.core._
-//                                        |import scala.concurrent.Future
-//                                        |import scala.concurrent.Promise
-//                                        |import scala.util.Success
-//                                        |import scala.util.Failure
-//                                        |val vertx = Vertx.vertx
-//                                        |implicit val executionContext = io.vertx.lang.scala.VertxExecutionContext(vertx.getOrCreateContext)
-//                                        |""".stripMargin
-//     )
-// }
+      // SBT revolver plugin settings
+      reStartArgs := startArgs(mainVerticle.value),
+
+      // Settings for single jar assembly with the assembly plugin
+      assembly / assemblyJarName := "$name;format="normalize"$.jar",
+      assembly / assemblyMergeStrategy := {
+        case PathList("META-INF", "MANIFEST.MF")                  => MergeStrategy.discard
+        case PathList("META-INF", xs@_*)                          => MergeStrategy.last
+        case PathList("META-INF", "io.netty.versions.properties") => MergeStrategy.last
+        case "module-info.class"                                  => MergeStrategy.discard
+        case "org/apache/commons/jexl3/internal/MapBuilder.class" => MergeStrategy.last
+        case x                                                    => assemblyMergeStrategy.value(x)
+      },
+
+      // Settings for Docker image building with the jib plugin
+      jibTcpPorts := List($httpPort$),
+      jibBaseImage := "eclipse-temurin:17.0.6_10-jre-alpine",
+      jibJvmFlags := List("-noverify", "-Djava.security.egd=file:/dev/./urandom"),
+      jibUseCurrentTimestamp := true,
+      jibArgs := startArgs(mainVerticle.value)
+    )
+
+}
