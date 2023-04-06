@@ -37,7 +37,7 @@ just use
 ~reStart
 ```
 
-Your application will restart automatically as soon as one of the source files has started.
+Your application will restart automatically as soon as one of the source files has changed.
 
 
 # Fat-jar
