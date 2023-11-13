@@ -1,9 +1,9 @@
 import sbt._
 
 object Version {
-  final val Scala       = "3.3.0"
+  final val Scala       = "3.3.1"
   final val ScalaTest   = "3.2.16"
-  final val Vertx       = "4.4.4-SNAPSHOT"
+  final val Vertx       = "4.4.6"
 }
 
 object Library {
