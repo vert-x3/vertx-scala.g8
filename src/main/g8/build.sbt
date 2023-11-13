@@ -1,6 +1,6 @@
 import java.util.jar.Attributes.Name
 
-ThisBuild / scalaVersion := "3.3.0"
+ThisBuild / scalaVersion := Version.Scala
 ThisBuild / resolvers    += Resolver.mavenLocal
 
 lazy val root = (project in file("."))
