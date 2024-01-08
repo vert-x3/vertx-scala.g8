@@ -2,14 +2,14 @@ import sbt._
 
 object Version {
   final val Scala       = "3.3.1"
-  final val ScalaTest   = "3.2.16"
-  final val Vertx       = "4.4.6"
+  final val ScalaTest   = "3.3.0-SNAP4"
+  final val Vertx       = "4.5.2-SNAPSHOT"
 }
 
 object Library {
   val vertx_codegen                     = "io.vertx" %  "vertx-codegen"                           % Version.Vertx % "provided"
-  val vertx_lang_scala                  = "io.vertx" %  "vertx-lang-scala3"                       % Version.Vertx
-  val vertx_lang_scala_test             = "io.vertx" %  "vertx-lang-scala3-test"                  % Version.Vertx
+  val vertx_lang_scala                  = "io.vertx" %%  "vertx-lang-scala"                       % Version.Vertx
+  val vertx_lang_scala_test             = "io.vertx" %%  "vertx-lang-scala-test"                  % Version.Vertx
   val vertx_hazelcast                   = "io.vertx" %  "vertx-hazelcast"                         % Version.Vertx
   val vertx_web                         = "io.vertx" %  "vertx-web"                               % Version.Vertx
 
