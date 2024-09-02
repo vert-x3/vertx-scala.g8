@@ -7,16 +7,11 @@ object Version {
 }
 
 object Library {
-  val vertx_codegen         = "io.vertx"  % "vertx-codegen"          % Version.Vertx % "provided"
-  val vertx_lang_scala      = "io.vertx"  % "vertx-lang-scala3"      % Version.Vertx
-  val vertx_lang_scala_test = "io.vertx"  % "vertx-lang-scala3-test" % Version.Vertx
-  val vertx_hazelcast       = "io.vertx"  % "vertx-hazelcast"        % Version.Vertx
-  val vertx_web             = "io.vertx"  % "vertx-web"              % Version.Vertx
-  val vertx_codegen         = "io.vertx"  % "vertx-codegen"          % Version.Vertx % "provided"
-  val vertx_lang_scala      = "io.vertx" %% "vertx-lang-scala"       % Version.Vertx
-  val vertx_lang_scala_test = "io.vertx" %% "vertx-lang-scala-test"  % Version.Vertx
-  val vertx_hazelcast       = "io.vertx"  % "vertx-hazelcast"        % Version.Vertx
-  val vertx_web             = "io.vertx"  % "vertx-web"              % Version.Vertx
+  val vertx_codegen         = "io.vertx"  % "vertx-codegen"         % Version.Vertx % "provided"
+  val vertx_lang_scala      = "io.vertx" %% "vertx-lang-scala"      % Version.Vertx
+  val vertx_lang_scala_test = "io.vertx" %% "vertx-lang-scala-test" % Version.Vertx
+  val vertx_hazelcast       = "io.vertx"  % "vertx-hazelcast"       % Version.Vertx
+  val vertx_web             = "io.vertx"  % "vertx-web"             % Version.Vertx
 
   val vertx_mqtt                        = "io.vertx" % "vertx-mqtt"                        % Version.Vertx
   val vertx_sql_common                  = "io.vertx" % "vertx-sql-common"                  % Version.Vertx
