@@ -13,6 +13,7 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       Library.vertx_lang_scala,
       Library.vertx_web,
+      Library.scala_logging,
       Library.vertx_lang_scala_test % Test,
       Library.scalaTest             % Test,
       Library.logback               % Runtime,
