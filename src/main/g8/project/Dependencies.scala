@@ -4,6 +4,7 @@ object Version {
   final val Scala     = "3.5.2"
   final val ScalaTest = "3.2.19"
   final val Vertx     = "4.5.11-SNAPSHOT"
+  final val Logback   = "1.5.12"
 }
 
 object Library {
@@ -58,5 +59,6 @@ object Library {
   val vertx_config_zookeeper            = "io.vertx" % "vertx-config-zookeeper"            % Version.Vertx
 
   // non-vert.x deps
-  val scalaTest = "org.scalatest" %% "scalatest" % Version.ScalaTest
+  val scalaTest = "org.scalatest" %% "scalatest"       % Version.ScalaTest
+  val logback   = "ch.qos.logback" % "logback-classic" % Version.Logback
 }

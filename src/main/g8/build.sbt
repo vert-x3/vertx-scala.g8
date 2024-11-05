@@ -15,6 +15,7 @@ lazy val root = (project in file("."))
       Library.vertx_web,
       Library.vertx_lang_scala_test % Test,
       Library.scalaTest             % Test,
+      Library.logback               % Runtime,
     ),
     mainVerticle := "$package$.HttpVerticle"
   )
