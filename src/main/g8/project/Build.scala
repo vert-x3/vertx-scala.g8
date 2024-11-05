@@ -32,7 +32,7 @@ object Build extends AutoPlugin {
       scalacOptions ++= Vector(
         "-unchecked",
         "-deprecation",
-        "-target:17",
+        "-java-output-version:11",
         "-encoding", "UTF-8"
       ),
       Compile / mainClass := Some("io.vertx.core.Launcher"),
