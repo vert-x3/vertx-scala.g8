@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+
+<configuration>
+  <import class="ch.qos.logback.classic.encoder.PatternLayoutEncoder" />
+  <import class="ch.qos.logback.classic.AsyncAppender" />
+  <import class="ch.qos.logback.core.ConsoleAppender" />
+
+  <appender name="STDOUT" class="ConsoleAppender">
+    <encoder class="PatternLayoutEncoder">
+      <pattern>
+        %date{yyMMdd HH:mm:ss.SSS} %cyan([%thread]) %highlight(%-5level) %msg %gray(-%logger{0}) %n
+      </pattern>
+    </encoder>
+  </appender>
+  <appender name="ASYNC" class="AsyncAppender">
+    <appender-ref ref="STDOUT" />
+  </appender>
+
+  <logger name="io.netty" level="warn" />
+
+  <root level="INFO">
+    <appender-ref ref="ASYNC" />
+  </root>
+</configuration>
