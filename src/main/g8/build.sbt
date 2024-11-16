@@ -1,7 +1,6 @@
 import java.util.jar.Attributes.Name
 
 ThisBuild / scalaVersion := Version.Scala
-ThisBuild / resolvers += "Sonatype OSS Snapshots" at "https://s01.oss.sonatype.org/content/repositories/snapshots"
 ThisBuild / resolvers += Resolver.mavenLocal
 
 lazy val root = (project in file("."))

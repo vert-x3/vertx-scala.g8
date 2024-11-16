@@ -1,36 +1,27 @@
-target/
-lib_managed/
-src_managed/
-project/boot/
-.DS_Store
-.gradle
-.idea
-.classpath
-.project
-.settings
-.yardoc
-.yardopts
-bin
-build
-target
-out
-*.iml
-*.ipr
-*.iws
-test-output
-Scratch.java
-ScratchTest.java
-test-results
-test-tmp
+# ---> Scala
 *.class
-src/gen
-src/test/java/io/vertx/codegen/**
-src/test/java/com/acme/**
-src/test/scala/io/vertx/scala/codegen/**
-src/test/scala/com/acme/**
-src/test/asciidoc
-.bsp
-.bloop
-.metals
-.vscode
+*.log
+
+# sbt
+target
+project/target/
+project/project/
 metals.sbt
+
+# Metals
+.bloop/
+.bsp/
+.metals/
+.scala-build/
+
+# VSCode
+.vscode/
+
+# IntelliJ
+.idea/
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# MacOS stuff
+.DS_Store
